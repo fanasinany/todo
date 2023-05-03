@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const bcrypt = require("bcrypt")
 const Todo = require('./models/todoModel')
 const User = require('./models/userModel')
 const app = express()
@@ -84,11 +85,23 @@ app.get('/users', async (req, res) => {
     }
 })
 
-//Create user
-app.post('/users', async (req, res) => {
+//Register
+app.post('/register', (req, res) => {
     try {
-        const users = await User.create(req.body)
-        res.status(200).json(users)
+        bcrypt
+            .hash(req.body.password, 10)
+            .then(async (hashedPassword) => {
+                req.body.password = hashedPassword
+                const users = await User.create(req.body)
+                res.status(200).json(users)
+            })
+            .catch((error) => {
+                res.status(500).send({
+                    message: "Password was not hashed successfully",
+                    error,
+                });
+            })
+
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
