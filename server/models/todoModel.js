@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const User = require('./userModel');
 
 const todoSchema = mongoose.Schema(
     {
@@ -14,12 +15,12 @@ const todoSchema = mongoose.Schema(
         },
         assigned:
         {
-            type: String,
+            type: User,
             required: true,
         },
         created:
         {
-            type: String,
+            type: User,
             required: true,
         }
     },
