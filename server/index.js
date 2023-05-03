@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Todo = require('./models/todoModel')
+const User = require('./models/userModel')
 const app = express()
 const port = 4000
 
@@ -11,6 +12,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+/*============ Todos API ==============*/
 
 //Get todos
 app.get('/todos', async (req, res) => {
@@ -66,6 +68,27 @@ app.delete('/todos/:id', async (req, res) => {
             return res.status(404).json({ message: `cannot find any todo with ID ${id}` })
         }
         res.status(200).json(todo)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+/*============ User API ==============*/
+//Get users
+app.get('/users', async (req, res) => {
+    try {
+        const users = await User.find({})
+        res.status(200).json(users)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+//Create user
+app.post('/users', async (req, res) => {
+    try {
+        const users = await User.create(req.body)
+        res.status(200).json(users)
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
