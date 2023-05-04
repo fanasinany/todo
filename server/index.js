@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
+const auth = require("./auth");
 const Todo = require('./models/todoModel')
 const User = require('./models/userModel')
 const app = express()
@@ -96,16 +98,69 @@ app.post('/register', (req, res) => {
                 res.status(200).json(users)
             })
             .catch((error) => {
-                res.status(500).send({
-                    message: "Password was not hashed successfully",
-                    error,
-                });
+                res.status(500).json({ message: "Can't hash password", error });
             })
 
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
 })
+
+//Login
+app.post("/login", (req, res) => {
+    // check if email exists
+    User.findOne({ email: req.body.email })
+        .then((user) => {
+            // compare the password entered and the hashed password found
+            bcrypt.compare(req.body.password, user.password)
+                // if the passwords match
+                .then((passwordCheck) => {
+                    // check if password matches
+                    if (!passwordCheck) {
+                        return res.status(400).json({
+                            message: "Passwords does not match",
+                            error,
+                        });
+                    }
+                    // create JWT token
+                    const token = jwt.sign(
+                        {
+                            userId: user._id,
+                            userEmail: user.email,
+                        },
+                        "RANDOM-TOKEN",
+                        { expiresIn: "24h" }
+                    );
+                    // return success response
+                    res.status(200).json({
+                        message: "Login Successful",
+                        email: user.email,
+                        token,
+                    });
+                })
+                // catch error if password does not match
+                .catch((error) => {
+                    res.status(400).json({
+                        message: "Passwords does not match",
+                        error,
+                    });
+                })
+        })
+        // catch error if email does not exist
+        .catch((error) => {
+            res.status(404).json({ message: "Email not found", error })
+        })
+})
+
+// free endpoint
+app.get("/free-endpoint", (request, response) => {
+    response.json({ message: "You are free to access me anytime" });
+});
+
+// authentication endpoint
+app.get("/auth-endpoint", auth, (request, response) => {
+    response.json({ message: "You are authorized to access me" });
+});
 
 mongoose.connect('mongodb://127.0.0.1:27017/todo', {
     useNewUrlParser: true,
@@ -120,3 +175,17 @@ mongoose.connect('mongodb://127.0.0.1:27017/todo', {
     .catch((error) => {
         console.log(error)
     })
+
+// Curb Cores Error by adding a header here
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    );
+    next();
+});
