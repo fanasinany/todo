@@ -21,7 +21,7 @@ const Login = () => {
                 });
                 window.location.href = "/"
             })
-            .catch((error) => {
+            .catch(() => {
                 setError(true)
             })
     }
@@ -30,13 +30,17 @@ const Login = () => {
             <h1>Connexion</h1>
             <p>Connectez-vous en entrant votre email et mot de passe.</p>
             <form onSubmit={(e) => handleSubmit(e)}>
+                {error && (
+                    <p className="incorrect-info">Email ou mot de passe incorrect.</p>
+                )}
                 <Input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
                 <Input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
                 <button type="submit" onClick={(e) => handleSubmit(e)}>Se connecter</button>
             </form>
-            {error && (
-                <p className="already-have-account">Vous avez déja un compte liée à cette email. <Link to="/register">Créer un compte.</Link></p>
-            )}
+            <div className="create-account">
+                <span>ou</span>
+                <Link to="/register">Créer un compte</Link>
+            </div>
         </div>
     );
 };
