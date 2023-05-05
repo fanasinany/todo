@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.input-wrapper {
+    input {
+        width: 100%;
+        height: 36px;
+        border-radius: 4px;
+        border: 1px solid $border-color;
+        padding: 2px 8px;
+        box-sizing: border-box;
+        &:focus {
+            outline: none;
+            border-color: $input-border-focus;
+        }
+    }
+}

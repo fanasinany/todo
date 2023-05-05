@@ -1,0 +1,49 @@
+@import "../../styles/variables";
+
+.Register {
+    margin: 0 auto;
+    max-width: 300px;
+    h1 {
+        text-align: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+
+        & > * {
+            margin-top: 12px;
+        }
+
+        button {
+            background-color: $bg-dark;
+            color: white;
+            border: none;
+            height: 36px;
+            border-radius: 4px;
+        }
+    }
+
+    .already-have-account {
+        text-align: center;
+        color: gray;
+        a {
+            font-weight: 600;
+            color: $bg-dark;
+        }
+    }
+
+    .notif-register {
+        background-color: $bg-succes;
+        color: white;
+        text-align: center;
+        height: 36px;
+        border-radius: 4px;
+        font-size: 12px;
+        line-height:36px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        a{
+            color: inherit;
+            font-weight: 500;
+        }
+    }
+}
