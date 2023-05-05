@@ -5,6 +5,7 @@ import Input from "../../components/Input";
 import axios from "axios";
 import config from "../../config";
 import Cookies from "universal-cookie";
+import Button from "../../components/Button";
 const cookies = new Cookies();
 
 const Login = () => {
@@ -35,7 +36,7 @@ const Login = () => {
                 )}
                 <Input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
                 <Input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-                <button type="submit" onClick={(e) => handleSubmit(e)}>Se connecter</button>
+                <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Se connecter" />
             </form>
             <div className="create-account">
                 <span>ou</span>

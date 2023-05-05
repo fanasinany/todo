@@ -1,0 +1,16 @@
+@import "../../styles/variables";
+
+.Button {
+    border: none;
+    height: 36px;
+    border-radius: 4px;
+    width: 100%;
+    &.dark {
+        background-color: $bg-dark;
+        color: white;
+    }
+    &.blue {
+        background-color: $bg-blue;
+        color: white;
+    }
+}

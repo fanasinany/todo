@@ -4,6 +4,7 @@ import axios from "axios";
 import Input from "../../components/Input";
 import { Link } from "react-router-dom";
 import config from "../../config";
+import Button from "../../components/Button";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -33,7 +34,7 @@ const Register = () => {
                 <Input name="name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
                 <Input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
                 <Input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-                <button type="submit" onClick={(e) => handleSubmit(e)}>Créer mon compte</button>
+                <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Créer mon compte" />
             </form>
             {error && (
                 <p className="already-have-account">Vous avez déja un compte liée à cette email. <Link to="/">Connectez-vous!</Link></p>

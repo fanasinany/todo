@@ -1,2 +1,27 @@
+@import "../../styles/variables";
 .Dashboard {
+    height: 100vh;
+    .body-wrapper {
+        height: calc(100% - 70px);
+        display: flex;
+        padding-top: 60px;
+        gap: 16px;
+    }
+
+    .add-todo-wrapper {
+        padding: 0 16px;
+        width: 350px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+
+    .todo-wrapper {
+        flex-grow: 1;
+        h1{
+            margin: 0 0 16px 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+    }
 }

@@ -13,7 +13,7 @@ const Header = () => {
   const value = React.useContext(UserContext);
   return (
     <div className='Header'>
-      <div className='header-container'>
+      <div className='header-wrapper container'>
         <div>
           <h3>Bienvenue {value}</h3>
         </div>
