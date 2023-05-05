@@ -1,35 +1,39 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { verifyToken } from "./utils/auth";
 import Loading from "./pages/Loading";
+export const UserContext = React.createContext("");
 
 const App = () => {
 
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     verifyToken().then((data) => {
-      console.log(data.status)
       setAuthenticated(data.status);
+      setUserName(data.name)
       setLoading(false);
     });
   }, []);
 
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   return authenticated ? (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </BrowserRouter>
+    <UserContext.Provider value={userName}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
+    </UserContext.Provider>
   ) :
     <BrowserRouter>
       <Routes>

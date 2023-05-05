@@ -141,6 +141,7 @@ app.post("/login", (req, res) => {
                         {
                             userId: user._id,
                             userEmail: user.email,
+                            userName: user.name,
                         },
                         "RANDOM-TOKEN",
                         { expiresIn: "24h" }
@@ -173,7 +174,7 @@ app.get("/verifyToken", async (req, res) => {
 
         await User.findById(decodedToken.userId)
             .then(() => {
-                res.json({ status: true, name: decodedToken.userEmail, id: decodedToken.userId });
+                res.json({ status: true, name: decodedToken.userEmail, id: decodedToken.userId, name: decodedToken.userName });
             })
             .catch(() => {
                 res.json({ status: false });
