@@ -1,6 +1,6 @@
 @import "../../styles/variables";
 
-.Register {
+.Login {
     margin: 0 auto;
     max-width: 300px;
     height: 100vh;
@@ -40,21 +40,6 @@
         a {
             font-weight: 600;
             color: $bg-dark;
-        }
-    }
-
-    .notif-register {
-        background-color: $bg-succes;
-        color: white;
-        text-align: center;
-        height: 36px;
-        border-radius: 4px;
-        font-size: 12px;
-        line-height: 36px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        a {
-            color: inherit;
-            font-weight: 500;
         }
     }
 }

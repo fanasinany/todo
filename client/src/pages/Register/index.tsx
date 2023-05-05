@@ -23,7 +23,8 @@ const Register = () => {
     }
     return (
         <div className="Register">
-            <h1>Register Page</h1>
+            <h1>Créer votre compte</h1>
+            <p>Veuillez remplir les champs en dessous pour vous inscire.</p>
             <form onSubmit={(e) => handleSubmit(e)}>
                 {register && (
                     <p className="notif-register">Compte crée avec succes! <Link to="/">Connectez-vous</Link></p>
