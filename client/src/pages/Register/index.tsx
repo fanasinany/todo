@@ -3,6 +3,7 @@ import "./Register.scss";
 import axios from "axios";
 import Input from "../../components/Input";
 import { Link } from "react-router-dom";
+import config from "../../config";
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -13,7 +14,7 @@ const Register = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_ENDPOINT}register`, { name, email, password })
+        axios.post(`${config.url_api}register`, { name, email, password })
             .then(() => {
                 setRegister(true)
             })

@@ -1,23 +1,20 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import "./Login.scss";
 import { Link } from "react-router-dom";
 import Input from "../../components/Input";
 import axios from "axios";
+import config from "../../config";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-interface LoginProps {
-    setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const Login:FC<LoginProps> = ({ setAuthenticated }) => {
+const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_ENDPOINT}login`, { email, password })
+        axios.post(`${config.url_api}login`, { email, password })
             .then((result) => {
                 cookies.set("TOKEN", result.data.token, {
                     path: "/",

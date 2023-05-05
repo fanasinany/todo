@@ -166,6 +166,24 @@ app.post("/login", (req, res) => {
         })
 })
 
+//verify Token
+app.get("/verifyToken", async (req, res) => {
+    try {
+        const decodedToken = await jwt.verify(req.headers["authorization"], "RANDOM-TOKEN");
+
+        await User.findById(decodedToken.userId)
+            .then(() => {
+                res.json({ status: true, name: decodedToken.userEmail, id: decodedToken.userId });
+            })
+            .catch(() => {
+                res.json({ status: false });
+            })
+    } catch (error) {
+        res.json({ status: false });
+    }
+});
+
+
 mongoose.connect('mongodb://127.0.0.1:27017/todo', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
