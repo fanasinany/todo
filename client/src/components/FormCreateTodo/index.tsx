@@ -6,6 +6,8 @@ import Select from 'react-select';
 import axios from 'axios';
 import config from '../../config';
 import { UserContext } from '../../App';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const FormCreateTodo = () => {
 
@@ -48,10 +50,10 @@ const FormCreateTodo = () => {
     e.preventDefault();
     axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id })
       .then(() => {
-        console.log("Tache créé")
+        toast.success("Tache crée avec succes");
       })
       .catch((error) => {
-        console.log(error)
+        toast.error("Erreur lors de la creation de tache");
       })
   }
 
@@ -68,6 +70,17 @@ const FormCreateTodo = () => {
           onChange={handleChangeAssigned} />
         <Button type='submit' onClick={(e) => createTodo(e)} label='Créer la tache' deco='blue' />
       </form>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+      />
     </div>
   )
 }
