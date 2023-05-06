@@ -11,7 +11,8 @@ const todoSchema = mongoose.Schema(
         {
             type: String,
             required: true,
-            default: "todo"
+            enum : ['TODO','INPROGRESS',"DONE"],
+            default: "TODO"
         },
         assigned:
         {

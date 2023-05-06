@@ -11,11 +11,12 @@ const Header = () => {
     window.location.href = "/login"
   }
   const value = React.useContext(UserContext);
+
   return (
     <div className='Header'>
       <div className='header-wrapper container'>
         <div>
-          <h3>Bienvenue {value}</h3>
+          <h3>Bienvenue {value.name}</h3>
         </div>
         <div className='menu-right'>
           <div className='btn-disconnect' onClick={() => disconnectUser()}>

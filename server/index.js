@@ -91,10 +91,11 @@ app.delete('/todos/:id', async (req, res) => {
 })
 
 /*============ User API ==============*/
-//Get users
+//Get users (name and id)
 app.get('/users', async (req, res) => {
     try {
-        const users = await User.find({})
+        const users = await User.find({}, { id: 1, name: 1 })
+        console.log(users)
         res.status(200).json(users)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -174,7 +175,7 @@ app.get("/verifyToken", async (req, res) => {
 
         await User.findById(decodedToken.userId)
             .then(() => {
-                res.json({ status: true, name: decodedToken.userEmail, id: decodedToken.userId, name: decodedToken.userName });
+                res.json({ status: true, email: decodedToken.userEmail, id: decodedToken.userId, name: decodedToken.userName });
             })
             .catch(() => {
                 res.json({ status: false });

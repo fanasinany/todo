@@ -5,18 +5,18 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { verifyToken } from "./utils/auth";
 import Loading from "./pages/Loading";
-export const UserContext = React.createContext("");
+export const UserContext = React.createContext({name: "", id: ""});
 
 const App = () => {
 
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
-  const [userName, setUserName] = useState("");
+  const [users, setUsers] = useState({name:"",id:""});
 
   useEffect(() => {
     verifyToken().then((data) => {
       setAuthenticated(data.status);
-      setUserName(data.name)
+      setUsers({name:data.name, id:data.id})
       setLoading(false);
     });
   }, []);
@@ -26,7 +26,7 @@ const App = () => {
   }
 
   return authenticated ? (
-    <UserContext.Provider value={userName}>
+    <UserContext.Provider value={users}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Dashboard />} />
