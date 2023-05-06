@@ -7,7 +7,7 @@ export const verifyToken = async () => {
     if (cookies.get("TOKEN") != null) {
         return axios
             .get(`${config.url_api}verifyToken`, {
-                headers: { Authorization: cookies.get("TOKEN") || "" },
+                headers: { Authorization: cookies.get("TOKEN") || "" }
             })
             .then((res) => {
                 return res.data;

@@ -1,3 +1,4 @@
+@import "../../styles/variables";
 .CardTodo {
     margin-bottom: 8px;
     border-radius: 4px;
@@ -15,25 +16,12 @@
         word-break: break-all;
     }
 
-    .box{
-        width: 12px;
-        height: 12px;
-        border-radius: 100%;
-        display: flex;
-        position: absolute;
-        top: 8px;
-        right: 8px;
-    }
-
-    .box-inprogress{
-        background-color: yellow;
-    }
-
-    .box-todo{
-        background-color: red;
-    }
-
-    .box-done{
-        background-color: green;
+    .created-by {
+        text-align: right;
+        font-size: 12px;
+        & > span {
+            color: $bg-dark;
+            font-weight: 600;
+        }
     }
 }

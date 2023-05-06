@@ -44,7 +44,7 @@
                 padding: 0 8px;
                 font-weight: 500;
                 display: block;
-                background-color: $bg-cyan;
+                background-color: $bg-dark-green;
                 color: white;
                 border-radius: 8px 8px 0 0;
             }
@@ -54,6 +54,29 @@
     .todo-card-wrapper {
         & > span {
             text-transform: uppercase;
+            position: relative;
+            & > div {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                width: 24px;
+                height: 24px;
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &.box-inprogress {
+                    background-color: $bg-blue;
+                }
+
+                &.box-todo {
+                    background-color: red;
+                }
+
+                &.box-done {
+                    background-color: green;
+                }
+            }
         }
         & > div {
             padding: 16px 8px;
