@@ -118,7 +118,6 @@ app.delete('/todos/:id', async (req, res) => {
 app.get('/users', async (req, res) => {
     try {
         const users = await User.find({}, { id: 1, name: 1 })
-        console.log(users)
         res.status(200).json(users)
     } catch (error) {
         res.status(500).json({ message: error.message })
