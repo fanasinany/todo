@@ -51,6 +51,29 @@ app.get('/todos/:id', async (req, res) => {
     }
 })
 
+
+//get todos by user assigned
+app.get('/todos-assigned/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const todo = await Todo.find({ assigned: id })
+        res.status(200).json(todo)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+//get todos by user created
+app.get('/todos-created/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const todo = await Todo.find({ created: id })
+        res.status(200).json(todo)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
 //Create todo
 app.post('/todos', async (req, res) => {
     try {
