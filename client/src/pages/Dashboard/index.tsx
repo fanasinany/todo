@@ -44,7 +44,7 @@ const Dashboard = () => {
     }
 
     useEffect(() => {
-        axios.get(`${config.url_api}users`, {headers})
+        axios.get(`${config.url_api}users`, { headers })
             .then((res) => {
                 const newTab = res.data.map((item: { _id: any; name: any; }) => {
                     return { value: item._id, label: item.name }
@@ -130,7 +130,7 @@ const Dashboard = () => {
                             </span>
                             <div>
                                 {todos.map((item: any) => {
-                                    return <CardTodo key={item._id} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
+                                    return <CardTodo key={item._id} fetchAllToDo={fetchAllToDo} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
                                 })}
                             </div>
                         </div>
@@ -142,7 +142,7 @@ const Dashboard = () => {
                             </span>
                             <div>
                                 {todoInProgress.map((item: any) => {
-                                    return <CardTodo key={item._id} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
+                                    return <CardTodo key={item._id} fetchAllToDo={fetchAllToDo} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
                                 })}
                             </div>
                         </div>
@@ -154,7 +154,7 @@ const Dashboard = () => {
                             </span>
                             <div>
                                 {todoDones.map((item: any) => {
-                                    return <CardTodo key={item._id} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
+                                    return <CardTodo key={item._id} fetchAllToDo={fetchAllToDo} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
                                 })}
                             </div>
                         </div>
