@@ -24,4 +24,29 @@
             font-weight: 600;
         }
     }
+
+    .arrow-wrapper {
+        position: absolute;
+        display: flex;
+        right: 8px;
+        & > span {
+            display: flex;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            &:nth-child(2) {
+                margin-left: 8px;
+            }
+            &:hover{
+                background-color: gray;
+                &>svg{
+                    color: white;
+                }
+            }
+        }
+    }
 }
