@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "./styles/variables";
 body {
   margin: 0;
@@ -18,14 +18,14 @@ button {
   font-family: "Poppins";
 }
 
-.container{
+.container {
   max-width: 1200px;
   margin: 0 auto;
   padding-left: 16px;
   padding-right: 16px;
 }
 
-textarea{
+textarea {
   width: 100%;
   border-radius: 4px;
   border: 1px solid $border-color;
@@ -34,11 +34,38 @@ textarea{
   resize: none;
   font-family: "Poppins";
   &:focus {
-      outline: none;
-      border-color: $input-border-focus;
+    outline: none;
+    border-color: $input-border-focus;
   }
 }
 
-.Toastify__toast{
-  font-family: Poppins!important;
+.Toastify__toast {
+  font-family: Poppins !important;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b9b2b2;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #8b8b8b;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #dddddd;
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+  background: #999;
+}
+
+

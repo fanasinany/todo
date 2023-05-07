@@ -3,12 +3,14 @@ import "./Input.scss"
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  error?: boolean;
 }
 
-const Input:FC<InputProps> = ({name, ...rest}) => {
+const Input: FC<InputProps> = ({ name, error, ...rest }) => {
   return (
     <div className='input-wrapper'>
-      <input {...rest}/>
+      {error && <span className='error-input'>* Le champ {name} est requis.</span>}
+      <input {...rest} />
     </div>
   )
 }

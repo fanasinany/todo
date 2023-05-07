@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { UserContext } from '../../App';
 import Button from '../Button';
 import Cookies from 'universal-cookie';
+import Textarea from '../Textarea';
 const cookies = new Cookies();
 
 interface FormCreateTodoProps {
@@ -32,6 +33,8 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo }) => {
   const [assigned, setAssigned] = useState({ value: value.id, label: value.name });
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
   function handleChangeStatus(status: any) {
     setStatus(status);
@@ -49,28 +52,34 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo }) => {
         })
         setOptionUser(newTab)
       })
-      .catch(() => {
-
+      .catch((error) => {
+        console.log(error)
       })
   }, [])
 
   const createTodo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
-      .then(() => {
-        toast.success("Tache crée avec succes");
-        fetchAllToDo()
-      })
-      .catch((error) => {
-        toast.error("Erreur lors de la creation de tache");
-      })
+    if (title === "" || description === "") {
+      setTitleError(title === "");
+      setDescriptionError(description === "");
+    } else {
+      axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
+        .then(() => {
+          toast.success("Tache crée avec succes");
+          fetchAllToDo()
+        })
+        .catch((error) => {
+          toast.error("Erreur lors de la creation de tache");
+        })
+    }
+
   }
   return (
     <div className='FormCreateTodo'>
       <p>Creer une nouvelle tache</p>
       <form>
-        <Input name='title' type='text' placeholder='Titre' value={title} onChange={(e) => setTitle(e.target.value)} />
-        <textarea rows={4} name='description' placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
+        <Input name='title' type='text' placeholder='Titre' value={title} onChange={(e) => { setTitleError(false); setTitle(e.target.value) }} error={titleError} />
+        <Textarea rows={4} name='description' placeholder='Description' value={description} onChange={(e) => { setDescriptionError(false); setDescription(e.target.value) }} error={descriptionError} />
         <Select options={optionStatus} placeholder="Status" value={status}
           onChange={handleChangeStatus} />
         <Select options={optionUser} placeholder="Assigné" value={assigned}
