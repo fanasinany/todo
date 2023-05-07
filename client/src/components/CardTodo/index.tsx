@@ -4,6 +4,8 @@ import { UserContext } from '../../App';
 import axios from 'axios';
 import config from '../../config';
 import { toast } from 'react-toastify';
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
 interface CardTodoProps {
     id: string;
     title: string;
@@ -16,22 +18,22 @@ interface CardTodoProps {
 const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreated, fetchAllToDo }) => {
     const value = React.useContext(UserContext)
 
+    const headers = {
+        Authorization: 'Bearer ' + cookies.get("TOKEN") || ""
+    }
+
     const clickArrowToRight = () => {
         const statusUpdated = (status === "INPROGRESS" ? "TODO" : "INPROGRESS")
-        axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated })
-            .then(() => {
-                toast.success("Tache deplacée avec succes");
-                fetchAllToDo()
-            })
-            .catch((error) => {
-                console.log(error)
-                toast.error("Une erreur se produit");
-            })
+        changeStatusTodo(statusUpdated)
     }
 
     const clickArrowToLeft = () => {
         const statusUpdated = (status === "TODO" ? "INPROGRESS" : "DONE")
-        axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated })
+        changeStatusTodo(statusUpdated)
+    }
+
+    const changeStatusTodo = (statusUpdated: string) => {
+        axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated }, { headers })
             .then(() => {
                 toast.success("Tache deplacée avec succes");
                 fetchAllToDo()

@@ -5,13 +5,11 @@ import axios from "axios";
 import config from "../../config";
 import { UserContext } from "../../App";
 import CardTodo from "../../components/CardTodo";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import Button from "../../components/Button";
-import Input from "../../components/Input";
-import Select from 'react-select';
 import Header from "../../components/Header";
 import Cookies from "universal-cookie";
+import FormCreateTodo from "../../components/FormCreateTodo";
 const cookies = new Cookies();
 
 const Dashboard = () => {
@@ -20,53 +18,6 @@ const Dashboard = () => {
         Authorization: 'Bearer ' + cookies.get("TOKEN") || ""
     }
     const value = React.useContext(UserContext)
-
-    /* Create Todo */
-    const optionStatus = [
-        { value: 'TODO', label: 'A faire' },
-        { value: 'INPROGRESS', label: 'En cours' },
-        { value: 'DONE', label: 'Términé' }
-    ]
-
-    const [optionUser, setOptionUser] = useState([])
-
-    const [status, setStatus] = useState({ value: 'TODO', label: 'A faire' });
-    const [assigned, setAssigned] = useState({ value: value.id, label: value.name });
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-
-    function handleChangeStatus(status: any) {
-        setStatus(status);
-    }
-
-    function handleChangeAssigned(assigned: any) {
-        setAssigned(assigned);
-    }
-
-    useEffect(() => {
-        axios.get(`${config.url_api}users`, { headers })
-            .then((res) => {
-                const newTab = res.data.map((item: { _id: any; name: any; }) => {
-                    return { value: item._id, label: item.name }
-                })
-                setOptionUser(newTab)
-            })
-            .catch(() => {
-
-            })
-    }, [])
-
-    const createTodo = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
-            .then(() => {
-                toast.success("Tache crée avec succes");
-                fetchAllToDo()
-            })
-            .catch((error) => {
-                toast.error("Erreur lors de la creation de tache");
-            })
-    }
 
     /*List todo */
     const [todos, setTodos] = useState([]);
@@ -94,29 +45,7 @@ const Dashboard = () => {
             <Header />
             <div className="body-wrapper container">
                 <div className="add-todo-wrapper">
-                    <div className='FormCreateTodo'>
-                        <p>Creer une nouvelle tache</p>
-                        <form>
-                            <Input name='title' type='text' placeholder='Titre' value={title} onChange={(e) => setTitle(e.target.value)} />
-                            <textarea rows={4} name='description' placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
-                            <Select options={optionStatus} placeholder="Status" value={status}
-                                onChange={handleChangeStatus} />
-                            <Select options={optionUser} placeholder="Assigné" value={assigned}
-                                onChange={handleChangeAssigned} />
-                            <Button type='submit' onClick={(e) => createTodo(e)} label='Créer la tache' deco='blue' />
-                        </form>
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={2000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss={false}
-                            draggable={false}
-                            pauseOnHover={false}
-                        />
-                    </div>
+                    <FormCreateTodo fetchAllToDo={fetchAllToDo} />
                     <ListCreatedTodo />
                 </div>
                 <div className="todo-wrapper">
@@ -161,6 +90,17 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable={false}
+                pauseOnHover={false}
+            />
         </div>
     );
 };
