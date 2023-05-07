@@ -13,18 +13,26 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        axios.post(`${config.url_api}login`, { email, password })
-            .then((result) => {
-                cookies.set("TOKEN", result.data.token, {
-                    path: "/",
-                });
-                window.location.href = "/"
-            })
-            .catch(() => {
-                setError(true)
-            })
+        if (email === "" || password === "") {
+            setEmailError(email === "");
+            setPasswordError(password === "");
+        }
+        else {
+            axios.post(`${config.url_api}login`, { email, password })
+                .then((result) => {
+                    cookies.set("TOKEN", result.data.token, {
+                        path: "/",
+                    });
+                    window.location.href = "/"
+                })
+                .catch(() => {
+                    setError(true)
+                })
+        }
     }
     return (
         <div className="Login">
@@ -34,8 +42,8 @@ const Login = () => {
                 {error && (
                     <p className="incorrect-info">Email ou mot de passe incorrect.</p>
                 )}
-                <Input name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                <Input name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+                <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} />
+                <Input name="password" type="password" value={password} onChange={(e) => { setPasswordError(false); setPassword(e.target.value) }} placeholder="Password" error={passwordError} />
                 <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Se connecter" />
             </form>
             <div className="create-account">

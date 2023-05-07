@@ -1,7 +1,12 @@
-.ListCreatedTodo{
-    &>p{
+.ListCreatedTodo {
+    & > p {
         font-size: 16px;
         margin: 12px 0 8px 0;
         text-decoration: underline;
     }
+
+    // .lc-wrapper {
+    //     display: flex;
+    //     flex-direction: column;
+    // }
 }

@@ -65,7 +65,7 @@ app.get('/todos-assigned/:id', auth, async (req, res) => {
 })
 
 //get todos by user created
-app.get('/todos-created/:id', async (req, res) => {
+app.get('/todos-created/:id',auth, async (req, res) => {
     try {
         const { id } = req.params;
         const todo = await Todo.find({ created: id })
