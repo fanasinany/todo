@@ -3,6 +3,7 @@ import "./CardTodo.scss";
 import { UserContext } from '../../App';
 import axios from 'axios';
 import config from '../../config';
+import { toast } from 'react-toastify';
 interface CardTodoProps {
     id: string;
     title: string;
@@ -19,10 +20,12 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
         const statusUpdated = (status === "INPROGRESS" ? "TODO" : "INPROGRESS")
         axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated })
             .then(() => {
+                toast.success("Tache deplacée avec succes");
                 fetchAllToDo()
             })
             .catch((error) => {
                 console.log(error)
+                toast.error("Une erreur se produit");
             })
     }
 
@@ -30,10 +33,12 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
         const statusUpdated = (status === "TODO" ? "INPROGRESS" : "DONE")
         axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated })
             .then(() => {
+                toast.success("Tache deplacée avec succes");
                 fetchAllToDo()
             })
             .catch((error) => {
                 console.log(error)
+                toast.error("Une erreur se produit");
             })
     }
 
