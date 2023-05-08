@@ -86,7 +86,7 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) =
         <Textarea rows={4} name='description' placeholder='Description' value={description} onChange={(e) => { setDescriptionError(false); setDescription(e.target.value) }} error={descriptionError} />
         <Select options={optionStatus} placeholder="Status" value={status}
           onChange={handleChangeStatus} />
-        <Select options={optionUser} placeholder="Assigné" value={assigned}
+        <Select maxMenuHeight={180} menuPlacement='top' options={optionUser} placeholder="Assigné" value={assigned}
           onChange={handleChangeAssigned} />
         <Button type='submit' onClick={(e) => createTodo(e)} label='Créer la tache' deco='blue' />
       </form>

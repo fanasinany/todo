@@ -1,12 +1,63 @@
+@import "../../styles/variables";
 .ListCreatedTodo {
+    position: relative;
     & > p {
-        font-size: 16px;
-        margin: 0px 0 8px 0;
-        text-decoration: underline;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0px 0 16px 0;
     }
 
-    // .lc-wrapper {
-    //     display: flex;
-    //     flex-direction: column;
-    // }
+    .lc-wrapper {
+        max-height: 400px;
+        overflow: auto;
+    }
+
+    .card-created-todo {
+        margin-bottom: 8px;
+        border-radius: 4px;
+        border: 1px solid $border-color;
+        padding: 8px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        & > div > p {
+            margin: 0 0 2px 0;
+            word-break: break-all;
+            &.title {
+                font-weight: 600;
+            }
+
+            &.description {
+                color: gray;
+                font-size: 13px;
+            }
+
+            &.assigned {
+                font-size: 12px;
+                span {
+                    font-weight: 600;
+                }
+            }
+        }
+        & > button {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            min-height: 30px;
+            border-radius: 100%;
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            & > svg {
+                height: 20px;
+                width: 20px;
+            }
+        }
+    }
 }

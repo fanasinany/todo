@@ -4,6 +4,8 @@ import axios from 'axios';
 import config from '../../config';
 import { UserContext } from '../../App';
 import Cookies from "universal-cookie";
+import MaterialSymbolsClose from '../../assets/Icons/MaterialSymbolsClose';
+import { toast } from 'react-toastify';
 const cookies = new Cookies();
 
 interface ListCreatedTodoProps {
@@ -33,12 +35,36 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
     fetchAllToDoCreated()
   }, [])
 
+  const deleteTodo = (id: any) => {
+    axios.delete(`${config.url_api}todos/${id}`, { headers })
+      .then((res) => {
+        fetchAllToDo()
+        setTodoCreated(todoCreated.filter((item: any) => item._id != res.data._id))
+        toast.success("Tache supprimé avec succes")
+      })
+      .catch((error) => {
+        toast.error(`Une erreur se produit ${error}`)
+      })
+  }
+
   return (
     <div className='ListCreatedTodo'>
-      <p>Taches que vous avez crées :</p>
+      <p>Taches que vous avez crées</p>
+      <button className='close-modal' onClick={closeModal}><MaterialSymbolsClose /></button>
       <div className='lc-wrapper'>
         {todoCreated.map((item: any) => {
-          return (<div>{item.title}</div>)
+          return (
+            <div key={item._id} className='card-created-todo'>
+              <div>
+                <p className='title'>{item.title}</p>
+                <p className='description'>{item.description}</p>
+                <p className='assigned'>Assigné à <span>{value.name !== item.assigned.name ? item.assigned.name : "vous"}</span></p>
+              </div>
+              <button onClick={() => deleteTodo(item._id)}>
+                <MaterialSymbolsClose />
+              </button>
+            </div>
+          )
         })}
       </div>
     </div>

@@ -71,7 +71,7 @@ const Dashboard = () => {
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-            width: 500,
+            width: 450,
             border: 'none',
             borderRadius: '8px',
         },

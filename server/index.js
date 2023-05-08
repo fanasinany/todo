@@ -65,10 +65,11 @@ app.get('/todos-assigned/:id', auth, async (req, res) => {
 })
 
 //get todos by user created
-app.get('/todos-created/:id',auth, async (req, res) => {
+app.get('/todos-created/:id', auth, async (req, res) => {
     try {
         const { id } = req.params;
         const todo = await Todo.find({ created: id })
+            .populate('assigned', 'name')
         res.status(200).json(todo)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -86,7 +87,7 @@ app.post('/todos', auth, async (req, res) => {
 })
 
 //Update todo
-app.put('/todos/:id', auth,async (req, res) => {
+app.put('/todos/:id', auth, async (req, res) => {
     try {
         const { id } = req.params;
         const todo = await Todo.findByIdAndUpdate(id, req.body)
@@ -101,7 +102,7 @@ app.put('/todos/:id', auth,async (req, res) => {
 })
 
 //Delete todo
-app.delete('/todos/:id', async (req, res) => {
+app.delete('/todos/:id', auth, async (req, res) => {
     try {
         const { id } = req.params;
         const todo = await Todo.findByIdAndDelete(id)
