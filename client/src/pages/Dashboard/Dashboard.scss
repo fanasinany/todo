@@ -8,26 +8,39 @@
         gap: 16px;
     }
 
-    .add-todo-wrapper {
-        padding: 0 16px;
-        // width: 300px;
-        // min-width: 300px;
-        width: 25%;
-        min-width: 25%;
-        box-sizing: border-box;
-        border-radius: 8px;
-        box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-    }
-
     .todo-wrapper {
         flex-grow: 1;
         display: flex;
         flex-direction: column;
         height: 100%;
         h1 {
-            margin: 0 0 16px 0;
+            margin: 0;
             font-size: 24px;
             font-weight: 600;
+        }
+    }
+
+    .title-buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .group-button {
+            display: flex;
+            align-items: center;
+            & > button {
+                padding: 0 12px;
+                svg {
+                    margin-right: 6px;
+                    height: 20px;
+                    width: 20px;
+                }
+            }
+            & > button:first-child {
+                width: 200px;
+                min-width: 200px;
+                margin-right: 12px;
+            }
         }
     }
 
@@ -35,7 +48,8 @@
         display: flex;
         flex-grow: 1;
         gap: 8px;
-        height: calc(100% - 52px);
+        margin-top: 24px;
+        height: calc(100% - 76px);
         & > div {
             flex-grow: 1;
             flex-basis: 0;

@@ -9,13 +9,15 @@ import { UserContext } from '../../App';
 import Button from '../Button';
 import Cookies from 'universal-cookie';
 import Textarea from '../Textarea';
+import MaterialSymbolsClose from '../../assets/Icons/MaterialSymbolsClose';
 const cookies = new Cookies();
 
 interface FormCreateTodoProps {
   fetchAllToDo: () => void;
+  closeModal?: () => void;
 }
 
-const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo }) => {
+const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) => {
 
   const headers = {
     Authorization: 'Bearer ' + cookies.get("TOKEN") || ""
@@ -65,6 +67,7 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo }) => {
     } else {
       axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
         .then(() => {
+          closeModal && closeModal()
           toast.success("Tache crée avec succes");
           fetchAllToDo()
         })
@@ -76,6 +79,7 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo }) => {
   }
   return (
     <div className='FormCreateTodo'>
+      <button className='close-modal' onClick={closeModal}><MaterialSymbolsClose /></button>
       <p>Creer une nouvelle tache</p>
       <form>
         <Input name='title' type='text' placeholder='Titre' value={title} onChange={(e) => { setTitleError(false); setTitle(e.target.value) }} error={titleError} />

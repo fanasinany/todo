@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import "./ListCreatedTodo.scss";
 import axios from 'axios';
 import config from '../../config';
@@ -6,7 +6,12 @@ import { UserContext } from '../../App';
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
-const ListCreatedTodo = () => {
+interface ListCreatedTodoProps {
+  fetchAllToDo: () => void;
+  closeModal?: () => void;
+}
+
+const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal }) => {
   const headers = {
     Authorization: 'Bearer ' + cookies.get("TOKEN") || ""
   }

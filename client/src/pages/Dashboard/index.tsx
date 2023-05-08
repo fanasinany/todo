@@ -10,6 +10,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from "../../components/Header";
 import Cookies from "universal-cookie";
 import FormCreateTodo from "../../components/FormCreateTodo";
+import Modal from "react-modal";
+import Button from "../../components/Button";
+import GridiconsPlus from "../../assets/Icons/GridiconsPlus";
+import GridiconsAlignLeft from "../../assets/Icons/GridiconsAlignLeft";
 const cookies = new Cookies();
 
 const Dashboard = () => {
@@ -40,16 +44,72 @@ const Dashboard = () => {
         fetchAllToDo()
     }, [])
 
+    const [addModalIsOpen, setIsOpen] = React.useState(false);
+    const [listModalIsOpen, setListIsOpen] = React.useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
+    function listOpenModal() {
+        setListIsOpen(true);
+    }
+
+    function listCloseModal() {
+        setListIsOpen(false);
+    }
+
+    const customStyles = {
+        content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            width: 500,
+            border: 'none',
+            borderRadius: '8px',
+        },
+    };
     return (
         <div className="Dashboard">
             <Header />
             <div className="body-wrapper container">
-                <div className="add-todo-wrapper">
+                <Modal
+                    isOpen={addModalIsOpen}
+                    onRequestClose={closeModal}
+                    style={customStyles}
+                    shouldCloseOnOverlayClick={false}
+                    contentLabel="Modal add Todo"
+                >
+                    <FormCreateTodo fetchAllToDo={fetchAllToDo} closeModal={closeModal} />
+                </Modal>
+                <Modal
+                    isOpen={listModalIsOpen}
+                    onRequestClose={listCloseModal}
+                    style={customStyles}
+                    shouldCloseOnOverlayClick={false}
+                    contentLabel="Modal add Todo"
+                >
+                    <ListCreatedTodo fetchAllToDo={fetchAllToDo} closeModal={listCloseModal} />
+                </Modal>
+                {/* <div className="add-todo-wrapper">
                     <FormCreateTodo fetchAllToDo={fetchAllToDo} />
                     <ListCreatedTodo />
-                </div>
+                </div> */}
                 <div className="todo-wrapper">
-                    <h1>Vos taches</h1>
+                    <div className="title-buttons">
+                        <h1>Vos taches</h1>
+                        <div className="group-button">
+                            <Button icon={<GridiconsAlignLeft />} onClick={listOpenModal} label="Liste des taches crées" deco="dark" />
+                            <Button icon={<GridiconsPlus />} onClick={openModal} label="Creer un tache" deco="blue" />
+                        </div>
+                    </div>
                     <div className="todo-section">
                         <div className="todo-card-wrapper">
                             <span>à FAIRE ({todos.length})
