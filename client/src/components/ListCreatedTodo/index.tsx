@@ -39,7 +39,7 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
     axios.delete(`${config.url_api}todos/${id}`, { headers })
       .then((res) => {
         fetchAllToDo()
-        setTodoCreated(todoCreated.filter((item: any) => item._id != res.data._id))
+        setTodoCreated(todoCreated.filter((item: any) => item._id !== res.data._id))
         toast.success("Tache supprimé avec succes")
       })
       .catch((error) => {
