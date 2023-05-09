@@ -1,77 +1,108 @@
 @import "../../styles/variables";
 
 .Login {
-    margin: 0 auto;
-    max-width: 300px;
-    height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    & > p {
-        text-align: center;
-        color: gray;
-        font-size: 13px;
-        margin: 4px 0 8px 0;
+    height: 100vh;
+    
+    & > div {
+        width: 50%;
     }
-    & > h1 {
-        text-align: center;
-        margin: 0;
-    }
-    form {
-        display: flex;
-        flex-direction: column;
 
-        & > * {
-            margin-top: 12px;
+    .bg-fond {
+        background-image: url("../../assets/Images/login-fond.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+
+    @media(max-width: 655px){
+        & > div {
+            width: 100%;
+        }
+
+        .bg-fond{
+            display: none;
         }
     }
+    .login-form {
+        & > div {
+            margin: auto;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            @media(max-width: 320px){
+                max-width: none;
+                padding: 16px;
+                box-sizing: border-box;
+            }
+            & > p {
+                text-align: center;
+                color: gray;
+                font-size: 13px;
+                margin: 4px 0 8px 0;
+            }
+            & > h1 {
+                text-align: center;
+                margin: 0;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
 
-    .incorrect-info {
-        background-color: red;
-        color: white;
-        text-align: center;
-        height: 36px;
-        border-radius: 4px;
-        font-size: 12px;
-        line-height: 36px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        margin-bottom: 0;
-    }
+                & > * {
+                    margin-top: 12px;
+                }
+            }
 
-    .create-account {
-        display: flex;
-        flex-direction: column;
-        & > span {
-            color: gray;
-            font-size: 13px;
-            margin: 14px 0;
-            text-align: center;
-            position: relative;
-            &::after,
-            &::before {
-                content: "";
-                width: calc(50% - 40px);
-                height: 1px;
-                background-color: $border-color;
-                position: absolute;
-                top: 9px;
+            .incorrect-info {
+                background-color: red;
+                color: white;
+                text-align: center;
+                height: 36px;
+                border-radius: 4px;
+                font-size: 12px;
+                line-height: 36px;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                margin-bottom: 0;
             }
-            &::after {
-                left: 16px;
+
+            .create-account {
+                display: flex;
+                flex-direction: column;
+                & > span {
+                    color: gray;
+                    font-size: 13px;
+                    margin: 14px 0;
+                    text-align: center;
+                    position: relative;
+                    &::after,
+                    &::before {
+                        content: "";
+                        width: calc(50% - 40px);
+                        height: 1px;
+                        background-color: $border-color;
+                        position: absolute;
+                        top: 9px;
+                    }
+                    &::after {
+                        left: 16px;
+                    }
+                    &::before {
+                        right: 16px;
+                    }
+                }
+                & > a {
+                    height: 36px;
+                    border-radius: 4px;
+                    background-color: yellow;
+                    color: #4c4b4b;
+                    line-height: 36px;
+                    text-align: center;
+                    text-decoration: none;
+                    font-size: 13.333px;
+                }
             }
-            &::before {
-                right: 16px;
-            }
-        }
-        & > a {
-            height: 36px;
-            border-radius: 4px;
-            background-color: #2d2daf;
-            color: white;
-            line-height: 36px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 13.333px;
         }
     }
 }

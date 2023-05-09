@@ -1,53 +1,82 @@
 @import "../../styles/variables";
 
 .Register {
-    margin: 0 auto;
-    max-width: 300px;
-    height: 100vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    & > p {
-        text-align: center;
-        color: gray;
-        font-size: 13px;
-        margin: 4px 0 8px 0;
+    height: 100vh;
+    & > div {
+        width: 50%;
     }
-    & > h1 {
-        text-align: center;
-        margin: 0;
-    }
-    form {
-        display: flex;
-        flex-direction: column;
 
-        & > * {
-            margin-top: 12px;
+    .bg-fond {
+        background-image: url("../../assets/Images/login-fond.jpg");
+        background-size: cover;
+        background-position: center;
+    }
+    @media (max-width: 655px) {
+        & > div {
+            width: 100%;
+        }
+
+        .bg-fond {
+            display: none;
         }
     }
+    .login-form {
+        & > div {
+            margin: auto;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            @media (max-width: 320px) {
+                max-width: none;
+                padding: 16px;
+                box-sizing: border-box;
+            }
+            & > p {
+                text-align: center;
+                color: gray;
+                font-size: 13px;
+                margin: 4px 0 8px 0;
+            }
+            & > h1 {
+                text-align: center;
+                margin: 0;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
 
-    .already-have-account {
-        text-align: center;
-        color: gray;
-        margin-top: 8px;
-        a {
-            font-weight: 600;
-            color: $bg-dark;
-        }
-    }
+                & > * {
+                    margin-top: 12px;
+                }
+            }
 
-    .notif-register {
-        background-color: $bg-succes;
-        color: white;
-        text-align: center;
-        height: 36px;
-        border-radius: 4px;
-        font-size: 12px;
-        line-height: 36px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        a {
-            color: inherit;
-            font-weight: 500;
+            .already-have-account {
+                text-align: center;
+                color: gray;
+                margin-top: 8px;
+                a {
+                    font-weight: 600;
+                    color: $bg-dark;
+                }
+            }
+
+            .notif-register {
+                background-color: $bg-succes;
+                color: white;
+                text-align: center;
+                height: 36px;
+                border-radius: 4px;
+                font-size: 12px;
+                line-height: 36px;
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                a {
+                    color: inherit;
+                    font-weight: 500;
+                }
+            }
         }
     }
 }

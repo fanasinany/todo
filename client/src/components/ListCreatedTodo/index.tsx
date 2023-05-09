@@ -49,7 +49,7 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
 
   return (
     <div className='ListCreatedTodo'>
-      <p>Taches que vous avez crées</p>
+      <p>Taches que vous avez crées ({todoCreated.length})</p>
       <button className='close-modal' onClick={closeModal}><MaterialSymbolsClose /></button>
       <div className='lc-wrapper'>
         {todoCreated.map((item: any) => {
