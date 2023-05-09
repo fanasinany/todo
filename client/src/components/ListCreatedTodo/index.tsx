@@ -56,7 +56,7 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
           return (
             <div key={item._id} className='card-created-todo'>
               <div>
-                <p className='title'>{item.title}</p>
+                <p className='title'>{item.title} <span className={`status ${item.status}`}>{item.status ==="DONE" && "Términé"}{item.status ==="TODO" && "A faire"}{item.status ==="INPROGRESS" && "En cours"}</span></p>
                 <p className='description'>{item.description}</p>
                 <p className='assigned'>Assigné à <span>{value.name !== item.assigned.name ? item.assigned.name : "vous"}</span></p>
               </div>
@@ -67,7 +67,7 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
           )
         })}
       </div>
-    </div>
+    </div >
   )
 }
 

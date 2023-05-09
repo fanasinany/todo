@@ -89,8 +89,8 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
                         </span>
                     }
                 </div>
-                <h4>{title}</h4>
-                <p>{description}</p>
+                <h4 className='title-overflow'>{title}</h4>
+                <p className='desc-overflow'>{description}</p>
                 <p className='created-by'>Crée par <span>{value.name !== nameCreated ? nameCreated : "vous"}</span></p>
             </div>
             <Modal
@@ -104,7 +104,7 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
                     <button className='close-modal' onClick={closeModal}><MaterialSymbolsClose /></button>
                     <h3>Tache {id}</h3>
                     <p><span>Title :</span> {title}</p>
-                    <p><span>Description :</span> {description}</p>
+                    <p className='description'><span>Description :</span> {description}</p>
                     <p><span>Crée par</span> <strong>{value.name !== nameCreated ? nameCreated : "vous"}</strong></p>
                     <div>
                         <p><span>Status :</span></p>
