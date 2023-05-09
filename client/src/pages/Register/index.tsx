@@ -15,6 +15,14 @@ const Register = () => {
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [nameError, setNameError] = useState(false);
+    const [emailInvalidError, setEmailInvalidError] = useState(false);
+
+    function ValidateEmail(email: string) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            return true
+        }
+        return false
+    }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -24,13 +32,18 @@ const Register = () => {
             setNameError(name === "");
         }
         else {
-            axios.post(`${config.url_api}register`, { name, email, password })
-                .then(() => {
-                    setRegister(true)
-                })
-                .catch((error) => {
-                    setError(true)
-                })
+            if (ValidateEmail(email)) {
+                axios.post(`${config.url_api}register`, { name, email, password })
+                    .then(() => {
+                        setRegister(true)
+                    })
+                    .catch((error) => {
+                        setError(true)
+                    })
+            }
+            else {
+                setEmailInvalidError(true)
+            }
         }
     }
     return (
@@ -46,13 +59,17 @@ const Register = () => {
                             <p className="notif-register">Compte crée avec succes! <Link to="/">Connectez-vous</Link></p>
                         )}
                         <Input name="name" type="text" value={name} onChange={(e) => { setNameError(false); setName(e.target.value) }} placeholder="Name" error={nameError} />
-                        <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} />
+                        <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmailInvalidError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} invalidMailError={emailInvalidError} />
                         <Input name="password" type="password" value={password} onChange={(e) => { setPasswordError(false); setPassword(e.target.value) }} placeholder="Password" error={passwordError} />
                         <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Créer mon compte" />
                     </form>
                     {error && (
                         <p className="already-have-account">Vous avez déja un compte liée à cette email. <Link to="/">Connectez-vous!</Link></p>
                     )}
+                    <div className="create-account">
+                        <span>ou</span>
+                        <Link to="/login">Se connecter</Link>
+                    </div>
                 </div>
             </div>
         </div>

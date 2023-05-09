@@ -77,6 +77,43 @@
                     font-weight: 500;
                 }
             }
+
+            .create-account {
+                display: flex;
+                flex-direction: column;
+                & > span {
+                    color: gray;
+                    font-size: 13px;
+                    margin: 14px 0;
+                    text-align: center;
+                    position: relative;
+                    &::after,
+                    &::before {
+                        content: "";
+                        width: calc(50% - 40px);
+                        height: 1px;
+                        background-color: $border-color;
+                        position: absolute;
+                        top: 9px;
+                    }
+                    &::after {
+                        left: 16px;
+                    }
+                    &::before {
+                        right: 16px;
+                    }
+                }
+                & > a {
+                    height: 36px;
+                    border-radius: 4px;
+                    background-color: #725130;
+                    color: white;
+                    line-height: 36px;
+                    text-align: center;
+                    text-decoration: none;
+                    font-size: 13.333px;
+                }
+            }
         }
     }
 }

@@ -14,7 +14,15 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [emailError, setEmailError] = useState(false);
+    const [emailInvalidError, setEmailInvalidError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+
+    function ValidateEmail(email: string) {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            return true
+        }
+        return false
+    }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         if (email === "" || password === "") {
@@ -22,18 +30,24 @@ const Login = () => {
             setPasswordError(password === "");
         }
         else {
-            axios.post(`${config.url_api}login`, { email, password })
-                .then((result) => {
-                    cookies.set("TOKEN", result.data.token, {
-                        path: "/",
-                    });
-                    window.location.href = "/"
-                })
-                .catch(() => {
-                    setError(true)
-                })
+            if (ValidateEmail(email)) {
+                axios.post(`${config.url_api}login`, { email, password })
+                    .then((result) => {
+                        cookies.set("TOKEN", result.data.token, {
+                            path: "/",
+                        });
+                        window.location.href = "/"
+                    })
+                    .catch(() => {
+                        setError(true)
+                    })
+            }
+            else {
+                setEmailInvalidError(true)
+            }
         }
     }
+
     return (
         <div className="Login">
             <div className="bg-fond">
@@ -46,7 +60,7 @@ const Login = () => {
                         {error && (
                             <p className="incorrect-info">Email ou mot de passe incorrect.</p>
                         )}
-                        <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} />
+                        <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmailInvalidError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} invalidMailError={emailInvalidError} />
                         <Input name="password" type="password" value={password} onChange={(e) => { setPasswordError(false); setPassword(e.target.value) }} placeholder="Password" error={passwordError} />
                         <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Se connecter" />
                     </form>
