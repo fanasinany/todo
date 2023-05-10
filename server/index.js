@@ -2,11 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+require('dotenv').config()
 const auth = require("./auth");
 const Todo = require('./models/todoModel')
 const User = require('./models/userModel')
 const app = express()
-const port = 4000
+const port = process.env.PORT || 5000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -24,6 +25,10 @@ app.use((req, res, next) => {
     );
     next();
 });
+
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+})
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
@@ -209,12 +214,8 @@ app.get("/verifyToken", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
 
-
-// mongoose.connect('mongodb://127.0.0.1:27017/todo', {
+// mongoose.connect(process.env.DB_URL, {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true,
 // })
