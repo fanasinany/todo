@@ -45,8 +45,7 @@
                         background-color: green;
                     }
                     &.INPROGRESS {
-                        background-color: yellow;
-                        color: black;
+                        background-color: $bg-blue;
                     }
                     &.TODO {
                         background-color: red;
