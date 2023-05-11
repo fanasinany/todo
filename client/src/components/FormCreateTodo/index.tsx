@@ -69,8 +69,8 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) =
       setLoading(true)
       axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
         .then(() => {
-          closeModal && closeModal()
           fetchAllToDo()
+          closeModal && closeModal()
           toast.success("Tache crée avec succes");
         })
         .catch((error) => {
