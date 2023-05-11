@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Cookies from "universal-cookie";
 import Modal from 'react-modal';
 import MaterialSymbolsClose from '../../assets/Icons/MaterialSymbolsClose';
+import { RotatingLines } from 'react-loader-spinner';
 const cookies = new Cookies();
 interface CardTodoProps {
     id: string;
@@ -38,6 +39,7 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
 
     const changeStatusTodo = (statusUpdated: string) => {
         if (status !== statusUpdated) {
+            setLoading(true)
             axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated }, { headers })
                 .then(() => {
                     fetchAllToDo()
@@ -47,10 +49,15 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
                     console.log(error)
                     toast.error("Une erreur se produit");
                 })
+                .finally(() => {
+                    setLoading(false)
+                })
         }
     }
 
     const [modalIsOpen, setIsOpen] = useState(false);
+
+    const [loading, setLoading] = useState(false)
 
     function openModal() {
         setIsOpen(true);
@@ -79,13 +86,30 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
             <div className='CardTodo' onClick={() => openModal()}>
                 <div className='arrow-wrapper'>
                     {(status === "DONE" || status === "INPROGRESS") &&
-                        <span onClick={(e) => clickArrowToRight(e)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8l8 8l1.41-1.41L7.83 13H20v-2z" /></svg>
+                        <span className={`${loading && "loading"}`} onClick={(e) => clickArrowToRight(e)}>
+                            {!loading ?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8l8 8l1.41-1.41L7.83 13H20v-2z" /></svg> :
+                                <RotatingLines
+                                    strokeColor="grey"
+                                    strokeWidth="5"
+                                    animationDuration="0.75"
+                                    width="96"
+                                    visible={true}
+                                />}
                         </span>
                     }
                     {(status === "TODO" || status === "INPROGRESS") &&
-                        <span onClick={(e) => clickArrowToLeft(e)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8l-8-8z" /></svg>
+                        <span className={`${loading && "loading"}`} onClick={(e) => clickArrowToLeft(e)}>
+                            {!loading ?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="m12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8l-8-8z" /></svg>
+                                :
+                                <RotatingLines
+                                    strokeColor="grey"
+                                    strokeWidth="5"
+                                    animationDuration="0.75"
+                                    width="96"
+                                    visible={true}
+                                />}
                         </span>
                     }
                 </div>
