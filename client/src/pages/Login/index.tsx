@@ -16,6 +16,7 @@ const Login = () => {
     const [emailError, setEmailError] = useState(false);
     const [emailInvalidError, setEmailInvalidError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function ValidateEmail(email: string) {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -31,6 +32,7 @@ const Login = () => {
         }
         else {
             if (ValidateEmail(email)) {
+                setLoading(true)
                 axios.post(`${config.url_api}login`, { email, password })
                     .then((result) => {
                         cookies.set("TOKEN", result.data.token, {
@@ -41,6 +43,7 @@ const Login = () => {
                     .catch(() => {
                         setError(true)
                     })
+                    .finally(() => setLoading(false))
             }
             else {
                 setEmailInvalidError(true)
@@ -62,7 +65,7 @@ const Login = () => {
                         )}
                         <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmailInvalidError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} invalidMailError={emailInvalidError} />
                         <Input name="password" type="password" value={password} onChange={(e) => { setPasswordError(false); setPassword(e.target.value) }} placeholder="Password" error={passwordError} />
-                        <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Se connecter" />
+                        <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Se connecter" loading={loading} disabled={loading} />
                     </form>
                     <div className="create-account">
                         <span>ou</span>

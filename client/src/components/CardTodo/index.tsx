@@ -40,8 +40,8 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
         if (status !== statusUpdated) {
             axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated }, { headers })
                 .then(() => {
-                    toast.success("Status d'une taché changée avec succes");
                     fetchAllToDo()
+                    toast.success("Status d'une taché changée avec succes");
                 })
                 .catch((error) => {
                     console.log(error)

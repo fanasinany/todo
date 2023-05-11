@@ -37,6 +37,7 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) =
   const [description, setDescription] = useState("");
   const [titleError, setTitleError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleChangeStatus(status: any) {
     setStatus(status);
@@ -65,15 +66,17 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) =
       setTitleError(title === "");
       setDescriptionError(description === "");
     } else {
+      setLoading(true)
       axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
         .then(() => {
           closeModal && closeModal()
-          toast.success("Tache crée avec succes");
           fetchAllToDo()
+          toast.success("Tache crée avec succes");
         })
         .catch((error) => {
           toast.error("Erreur lors de la creation de tache");
         })
+        .finally(() => setLoading(false))
     }
 
   }
@@ -88,7 +91,7 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) =
           onChange={handleChangeStatus} />
         <Select maxMenuHeight={180} menuPlacement='top' options={optionUser} placeholder="Assigné" value={assigned}
           onChange={handleChangeAssigned} />
-        <Button type='submit' onClick={(e) => createTodo(e)} label='Créer la tache' deco='blue' />
+        <Button type='submit' onClick={(e) => createTodo(e)} label='Créer la tache' deco='blue' loading={loading} disabled={loading} />
       </form>
     </div>
   )

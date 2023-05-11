@@ -17,4 +17,8 @@
         background-color: $bg-blue;
         color: white;
     }
+    &:disabled{
+        opacity: 0.8;
+        cursor: not-allowed;
+    }
 }

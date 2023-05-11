@@ -16,6 +16,7 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState(false);
     const [nameError, setNameError] = useState(false);
     const [emailInvalidError, setEmailInvalidError] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     function ValidateEmail(email: string) {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -33,6 +34,7 @@ const Register = () => {
         }
         else {
             if (ValidateEmail(email)) {
+                setLoading(true)
                 axios.post(`${config.url_api}register`, { name, email, password })
                     .then(() => {
                         setRegister(true)
@@ -40,6 +42,7 @@ const Register = () => {
                     .catch((error) => {
                         setError(true)
                     })
+                    .finally(() => setLoading(false))
             }
             else {
                 setEmailInvalidError(true)
@@ -61,7 +64,7 @@ const Register = () => {
                         <Input name="name" type="text" value={name} onChange={(e) => { setNameError(false); setName(e.target.value) }} placeholder="Name" error={nameError} />
                         <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmailInvalidError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} invalidMailError={emailInvalidError} />
                         <Input name="password" type="password" value={password} onChange={(e) => { setPasswordError(false); setPassword(e.target.value) }} placeholder="Password" error={passwordError} />
-                        <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Créer mon compte" />
+                        <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Créer mon compte" loading={loading} disabled={loading}/>
                     </form>
                     {error && (
                         <p className="already-have-account">Vous avez déja un compte liée à cette email. <Link to="/">Connectez-vous!</Link></p>
