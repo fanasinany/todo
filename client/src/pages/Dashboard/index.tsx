@@ -105,7 +105,7 @@ const Dashboard = () => {
                     </div>
                     <div className="todo-section">
                         <div className="todo-card-wrapper">
-                            <span>à FAIRE ({todos.length})
+                            <span>à FAIRE ({todos.filter((item: { status: string; }) => item.status === "TODO").length})
                                 <div className="box-todo">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 9h6M4 5h4M6 5v11a1 1 0 0 0 1 1h5m0-9a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1zm0 8a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-6a1 1 0 0 1-1-1z" /></svg>
                                 </div>
@@ -117,7 +117,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="todo-card-wrapper">
-                            <span>EN COURS
+                            <span>EN COURS ({todos.filter((item: { status: string; }) => item.status === "INPROGRESS").length})
                                 <div className="box-inprogress">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M24 4v4m10-1.32l-2 3.464M41.32 14l-3.464 2M44 24h-4m1.32 10l-3.464-2M34 41.32l-2-3.464M24 44v-4m-10 1.32l2-3.464M6.68 34l3.464-2M4 24h4M6.68 14l3.464 2M14 6.68l2 3.464" /></svg>
                                 </div>
@@ -129,7 +129,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="todo-card-wrapper">
-                            <span>TERMINé
+                            <span>TERMINé ({todos.filter((item: { status: string; }) => item.status === "DONE").length})
                                 <div className="box-done">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ffffff" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4L9.55 18Z" /></svg>
                                 </div>

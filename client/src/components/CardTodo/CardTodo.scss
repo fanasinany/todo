@@ -122,3 +122,14 @@
         }
     }
 }
+
+.loading-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 200px;
+    h3{
+        font-weight: 500;
+    }
+}

@@ -127,24 +127,39 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
             >
                 <div className='details-wrapper'>
                     <button className='close-modal' onClick={closeModal}><MaterialSymbolsClose /></button>
-                    <h3>Tache {id}</h3>
-                    <p><span>Title :</span> {title}</p>
-                    <p className='description'><span>Description :</span> {description}</p>
-                    <p><span>Crée par</span> <strong>{value.name !== nameCreated ? nameCreated : "vous"}</strong></p>
-                    <div>
-                        <p><span>Status :</span></p>
-                        <div className='status-selector'>
-                            <div onClick={() => changeStatusTodo("TODO")} className={`${status === "TODO" && "active"}`}>
-                                à faire
+
+                    {!loading ?
+                        <>
+                            <h3>Tache {id}</h3>
+                            <p><span>Title :</span> {title}</p>
+                            <p className='description'><span>Description :</span> {description}</p>
+                            <p><span>Crée par</span> <strong>{value.name !== nameCreated ? nameCreated : "vous"}</strong></p>
+                            <div>
+                                <p><span>Status :</span></p>
+                                <div className='status-selector'>
+                                    <div onClick={() => changeStatusTodo("TODO")} className={`${status === "TODO" && "active"}`}>
+                                        à faire
+                                    </div>
+                                    <div onClick={() => changeStatusTodo("INPROGRESS")} className={`${status === "INPROGRESS" && "active"}`}>
+                                        En cours
+                                    </div>
+                                    <div onClick={() => changeStatusTodo("DONE")} className={`${status === "DONE" && "active"}`}>
+                                        Términé
+                                    </div>
+                                </div>
                             </div>
-                            <div onClick={() => changeStatusTodo("INPROGRESS")} className={`${status === "INPROGRESS" && "active"}`}>
-                                En cours
-                            </div>
-                            <div onClick={() => changeStatusTodo("DONE")} className={`${status === "DONE" && "active"}`}>
-                                Términé
-                            </div>
+                        </> :
+                        <div className='loading-content'>
+                            <h3>Changement de status en cours ...</h3>
+                            <RotatingLines
+                                strokeColor="grey"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="40"
+                                visible={true}
+                            />
                         </div>
-                    </div>
+                    }
                 </div>
             </Modal>
         </>
