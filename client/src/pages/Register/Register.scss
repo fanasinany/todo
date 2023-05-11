@@ -57,6 +57,10 @@
                 text-align: center;
                 color: gray;
                 margin-top: 8px;
+                &>span{
+                    color: red;
+                    font-size: 16px;
+                }
                 a {
                     font-weight: 600;
                     color: $bg-dark;
@@ -115,5 +119,9 @@
                 }
             }
         }
+    }
+
+    input.mail-alredy-used{
+        border-color: red;
     }
 }

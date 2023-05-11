@@ -38,6 +38,9 @@ const Register = () => {
                 axios.post(`${config.url_api}register`, { name, email, password })
                     .then(() => {
                         setRegister(true)
+                        setName("")
+                        setEmail("")
+                        setPassword("")
                     })
                     .catch((error) => {
                         setError(true)
@@ -62,12 +65,12 @@ const Register = () => {
                             <p className="notif-register">Compte crée avec succes! <Link to="/">Connectez-vous</Link></p>
                         )}
                         <Input name="name" type="text" value={name} onChange={(e) => { setNameError(false); setName(e.target.value) }} placeholder="Name" error={nameError} />
-                        <Input name="email" type="email" value={email} onChange={(e) => { setEmailError(false); setEmailInvalidError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} invalidMailError={emailInvalidError} />
+                        <Input name="email" className={`${error && "mail-alredy-used"}`} type="email" value={email} onChange={(e) => { setEmailError(false); setEmailInvalidError(false); setError(false); setEmail(e.target.value) }} placeholder="Email" error={emailError} invalidMailError={emailInvalidError} />
                         <Input name="password" type="password" value={password} onChange={(e) => { setPasswordError(false); setPassword(e.target.value) }} placeholder="Password" error={passwordError} />
-                        <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Créer mon compte" loading={loading} disabled={loading}/>
+                        <Button type="submit" onClick={(e) => handleSubmit(e)} deco="dark" label="Créer mon compte" loading={loading} disabled={loading} />
                     </form>
                     {error && (
-                        <p className="already-have-account">Vous avez déja un compte liée à cette email. <Link to="/">Connectez-vous!</Link></p>
+                        <p className="already-have-account"><span>*</span> Vous avez déja un compte liée à cette email. <Link to="/">Connectez-vous!</Link></p>
                     )}
                     <div className="create-account">
                         <span>ou</span>
