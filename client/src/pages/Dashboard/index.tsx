@@ -93,7 +93,7 @@ const Dashboard = () => {
                     shouldCloseOnOverlayClick={false}
                     contentLabel="Liste des taches"
                 >
-                    <ListCreatedTodo fetchAllToDo={fetchAllToDo} closeModal={listCloseModal} />
+                    <ListCreatedTodo setTodos={setTodos} closeModal={listCloseModal} />
                 </Modal>
                 <div className="todo-wrapper">
                     <div className="title-buttons">

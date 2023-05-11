@@ -9,6 +9,7 @@
 
     .lc-wrapper {
         max-height: 400px;
+        min-height: 100px;
         overflow: auto;
     }
 
@@ -86,4 +87,20 @@
             }
         }
     }
+}
+
+.loading-content-created{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    min-height: 100px;
+}
+
+.load-del{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 67px;
 }

@@ -6,22 +6,27 @@ import { UserContext } from '../../App';
 import Cookies from "universal-cookie";
 import MaterialSymbolsClose from '../../assets/Icons/MaterialSymbolsClose';
 import { toast } from 'react-toastify';
+import { RotatingLines } from 'react-loader-spinner';
+import Task from '../../interfaces/task';
 const cookies = new Cookies();
 
 interface ListCreatedTodoProps {
-  fetchAllToDo: () => void;
   closeModal?: () => void;
+  setTodos: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal }) => {
+const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ setTodos, closeModal }) => {
   const headers = {
     Authorization: 'Bearer ' + cookies.get("TOKEN") || ""
   }
   const value = React.useContext(UserContext)
 
   const [todoCreated, setTodoCreated] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [loadingDel, setLoadingDel] = useState(false)
 
   const fetchAllToDoCreated = () => {
+    setLoading(true)
     axios.get(`${config.url_api}todos-created/${value.id}`, { headers })
       .then((res) => {
         setTodoCreated(res.data)
@@ -29,6 +34,7 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
       .catch((error) => {
         console.log(error)
       })
+      .finally(() => setLoading(false))
   }
 
   useEffect(() => {
@@ -36,14 +42,18 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
   }, [])
 
   const deleteTodo = (id: any) => {
+    setLoadingDel(true)
     axios.delete(`${config.url_api}todos/${id}`, { headers })
       .then((res) => {
-        fetchAllToDo()
+        setTodos(current => current.filter(item => item._id != id))
         setTodoCreated(todoCreated.filter((item: any) => item._id !== res.data._id))
         toast.success("Tache supprimé avec succes")
       })
       .catch((error) => {
         toast.error(`Une erreur se produit ${error}`)
+      })
+      .finally(() => {
+        setLoadingDel(false)
       })
   }
 
@@ -52,20 +62,46 @@ const ListCreatedTodo: FC<ListCreatedTodoProps> = ({ fetchAllToDo, closeModal })
       <p>Taches que vous avez crées ({todoCreated.length})</p>
       <button className='close-modal' onClick={closeModal}><MaterialSymbolsClose /></button>
       <div className='lc-wrapper'>
-        {todoCreated.map((item: any) => {
-          return (
-            <div key={item._id} className='card-created-todo'>
-              <div>
-                <p className='title'>{item.title} <span className={`status ${item.status}`}>{item.status ==="DONE" && "Términé"}{item.status ==="TODO" && "A faire"}{item.status ==="INPROGRESS" && "En cours"}</span></p>
-                <p className='description'>{item.description}</p>
-                <p className='assigned'>Assigné à <span>{value.name !== item.assigned.name ? item.assigned.name : "vous"}</span></p>
+        {!loading ?
+          todoCreated.map((item: any) => {
+            return (
+              <div key={item._id} className='card-created-todo'>
+                {!loadingDel ?
+                  <>
+                    <div>
+                      <p className='title'>{item.title} <span className={`status ${item.status}`}>{item.status === "DONE" && "Términé"}{item.status === "TODO" && "A faire"}{item.status === "INPROGRESS" && "En cours"}</span></p>
+                      <p className='description'>{item.description}</p>
+                      <p className='assigned'>Assigné à <span>{value.name !== item.assigned.name ? item.assigned.name : "vous"}</span></p>
+                    </div>
+                    <button onClick={() => deleteTodo(item._id)}>
+                      <MaterialSymbolsClose />
+                    </button>
+                  </> :
+                  <div className='load-del'>
+                    <RotatingLines
+                      strokeColor="grey"
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      width="20"
+                      visible={true}
+                    />
+                  </div>
+                }
+
               </div>
-              <button onClick={() => deleteTodo(item._id)}>
-                <MaterialSymbolsClose />
-              </button>
-            </div>
-          )
-        })}
+            )
+          })
+          :
+          <div className='loading-content-created'>
+            <RotatingLines
+              strokeColor="grey"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="40"
+              visible={true}
+            />
+          </div>}
+
       </div>
     </div >
   )
