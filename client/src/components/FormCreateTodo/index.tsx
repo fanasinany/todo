@@ -71,7 +71,9 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ setTodos, closeModal }) => {
       axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
         .then((res) => {
           closeModal && closeModal()
-          setTodos(current => [...current, res.data])
+          if (assigned.value === value.id) {
+            setTodos(current => [...current, res.data])
+          }
           toast.success("Tache crée avec succes");
         })
         .catch((error) => {
