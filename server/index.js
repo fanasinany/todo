@@ -7,7 +7,7 @@ const auth = require("./auth");
 const Todo = require('./models/todoModel')
 const User = require('./models/userModel')
 const app = express()
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 4000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
