@@ -81,7 +81,8 @@ app.get('/todos-created/:id', auth, async (req, res) => {
 app.post('/todos', auth, async (req, res) => {
     try {
         const todos = await Todo.create(req.body)
-        res.status(200).json(todos)
+        const populatedTodos = await todos.populate("created", "name");
+        res.status(200).json(populatedTodos)
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
