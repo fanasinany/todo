@@ -95,7 +95,7 @@ app.put('/todos/:id', auth, async (req, res) => {
         if (!todo) {
             return res.status(404).json({ message: `cannot find any todo with ID ${id}` })
         }
-        const updatedTodo = await Todo.findById(id)
+        const updatedTodo = await Todo.findById(id).populate('created', 'name')
         res.status(200).json(updatedTodo)
     } catch (error) {
         res.status(500).json({ message: error.message })

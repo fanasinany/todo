@@ -14,6 +14,7 @@ import Modal from "react-modal";
 import Button from "../../components/Button";
 import GridiconsPlus from "../../assets/Icons/GridiconsPlus";
 import GridiconsAlignLeft from "../../assets/Icons/GridiconsAlignLeft";
+import Task from "../../interfaces/task";
 const cookies = new Cookies();
 
 const Dashboard = () => {
@@ -24,16 +25,12 @@ const Dashboard = () => {
     const value = React.useContext(UserContext)
 
     /*List todo */
-    const [todos, setTodos] = useState([]);
-    const [todoInProgress, setTodoInProgress] = useState([]);
-    const [todoDones, setTodoDones] = useState([]);
+    const [todos, setTodos] = useState<Task[]>([]);
 
     const fetchAllToDo = () => {
         axios.get(`${config.url_api}todos-assigned/${value.id}`, { headers })
             .then((res) => {
-                setTodos(res.data.filter((item: { status: string; }) => item.status === "TODO"))
-                setTodoInProgress(res.data.filter((item: { status: string; }) => item.status === "INPROGRESS"))
-                setTodoDones(res.data.filter((item: { status: string; }) => item.status === "DONE"))
+                setTodos(res.data)
             })
             .catch((error) => {
                 console.log(error)
@@ -87,7 +84,7 @@ const Dashboard = () => {
                     shouldCloseOnOverlayClick={false}
                     contentLabel="Modal add Todo"
                 >
-                    <FormCreateTodo fetchAllToDo={fetchAllToDo} closeModal={closeModal} />
+                    <FormCreateTodo setTodos={setTodos} closeModal={closeModal} />
                 </Modal>
                 <Modal
                     isOpen={listModalIsOpen}
@@ -114,32 +111,32 @@ const Dashboard = () => {
                                 </div>
                             </span>
                             <div>
-                                {todos.map((item: any) => {
-                                    return <CardTodo key={item._id} fetchAllToDo={fetchAllToDo} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
+                                {todos.filter((item: { status: string; }) => item.status === "TODO").map((item: any) => {
+                                    return <CardTodo setTodos={setTodos} key={item._id} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
                                 })}
                             </div>
                         </div>
                         <div className="todo-card-wrapper">
-                            <span>EN COURS ({todoInProgress.length})
+                            <span>EN COURS
                                 <div className="box-inprogress">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" d="M24 4v4m10-1.32l-2 3.464M41.32 14l-3.464 2M44 24h-4m1.32 10l-3.464-2M34 41.32l-2-3.464M24 44v-4m-10 1.32l2-3.464M6.68 34l3.464-2M4 24h4M6.68 14l3.464 2M14 6.68l2 3.464" /></svg>
                                 </div>
                             </span>
                             <div>
-                                {todoInProgress.map((item: any) => {
-                                    return <CardTodo key={item._id} fetchAllToDo={fetchAllToDo} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
+                                {todos.filter((item: { status: string; }) => item.status === "INPROGRESS").map((item: any) => {
+                                    return <CardTodo key={item._id} setTodos={setTodos} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
                                 })}
                             </div>
                         </div>
                         <div className="todo-card-wrapper">
-                            <span>TERMINé ({todoDones.length})
+                            <span>TERMINé
                                 <div className="box-done">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="#ffffff" d="m9.55 18l-5.7-5.7l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4L9.55 18Z" /></svg>
                                 </div>
                             </span>
                             <div>
-                                {todoDones.map((item: any) => {
-                                    return <CardTodo key={item._id} fetchAllToDo={fetchAllToDo} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
+                                {todos.filter((item: { status: string; }) => item.status === "DONE").map((item: any) => {
+                                    return <CardTodo key={item._id} setTodos={setTodos} id={item._id} title={item.title} status={item.status} description={item.description} nameCreated={item.created.name} />
                                 })}
                             </div>
                         </div>

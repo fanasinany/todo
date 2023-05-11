@@ -8,6 +8,7 @@ import Cookies from "universal-cookie";
 import Modal from 'react-modal';
 import MaterialSymbolsClose from '../../assets/Icons/MaterialSymbolsClose';
 import { RotatingLines } from 'react-loader-spinner';
+import Task from '../../interfaces/task';
 const cookies = new Cookies();
 interface CardTodoProps {
     id: string;
@@ -15,10 +16,10 @@ interface CardTodoProps {
     description?: string;
     status: string;
     nameCreated: string;
-    fetchAllToDo: () => void;
+    setTodos: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreated, fetchAllToDo }) => {
+const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreated, setTodos }) => {
     const value = React.useContext(UserContext)
 
     const headers = {
@@ -41,8 +42,8 @@ const CardTodo: FC<CardTodoProps> = ({ id, title, description, status, nameCreat
         if (status !== statusUpdated) {
             setLoading(true)
             axios.put(`${config.url_api}todos/${id}`, { status: statusUpdated }, { headers })
-                .then(() => {
-                    fetchAllToDo()
+                .then((res) => {
+                    setTodos((current) => [...current.filter(item => item._id !== res.data._id), res.data])
                     toast.success("Status d'une taché changée avec succes");
                 })
                 .catch((error) => {

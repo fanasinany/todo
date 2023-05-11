@@ -10,14 +10,15 @@ import Button from '../Button';
 import Cookies from 'universal-cookie';
 import Textarea from '../Textarea';
 import MaterialSymbolsClose from '../../assets/Icons/MaterialSymbolsClose';
+import Task from '../../interfaces/task';
 const cookies = new Cookies();
 
 interface FormCreateTodoProps {
-  fetchAllToDo: () => void;
   closeModal?: () => void;
+  setTodos: React.Dispatch<React.SetStateAction<Task[]>>;
 }
 
-const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) => {
+const FormCreateTodo: FC<FormCreateTodoProps> = ({ setTodos, closeModal }) => {
 
   const headers = {
     Authorization: 'Bearer ' + cookies.get("TOKEN") || ""
@@ -68,9 +69,9 @@ const FormCreateTodo: FC<FormCreateTodoProps> = ({ fetchAllToDo, closeModal }) =
     } else {
       setLoading(true)
       axios.post(`${config.url_api}todos`, { title: title, description: description, status: status.value, assigned: assigned.value, created: value.id }, { headers })
-        .then(() => {
-          fetchAllToDo()
+        .then((res) => {
           closeModal && closeModal()
+          setTodos(current => [...current, res.data])
           toast.success("Tache crée avec succes");
         })
         .catch((error) => {
